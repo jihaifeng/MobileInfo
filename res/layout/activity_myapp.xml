@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/appList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </ListView>
+
+    <ToggleButton
+        android:id="@+id/tog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="第三方应用"
+        android:textOn="系统内置应用" />
+
+</LinearLayout>

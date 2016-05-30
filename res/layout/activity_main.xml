@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.mobilinfomation.MainActivity" >
+
+    <Button
+        android:id="@+id/btn_getInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取手机基本信息" />
+
+    <Button
+        android:id="@+id/btn_getApp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取已安装app" />
+<Button
+        android:id="@+id/btn_getNet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取联网状态" />
+</LinearLayout>
