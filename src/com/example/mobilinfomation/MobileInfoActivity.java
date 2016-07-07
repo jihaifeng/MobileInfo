@@ -113,20 +113,17 @@ public class MobileInfoActivity extends Activity {
 		WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
 		WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 		mobileInfoBean.macAddr = wifiInfo.getMacAddress();// 手机MAC地址，只有wifi下才能获取到
-
 		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 		mobileInfoBean.imei = telephonyManager.getDeviceId();// 手机imei号
 		mobileInfoBean.imsi = telephonyManager.getSubscriberId();// 手机imsi号
-		mobileInfoBean.number = (TextUtils.isEmpty(telephonyManager
-				.getLine1Number()) ? null : telephonyManager.getLine1Number());// 手机号
+		mobileInfoBean.number = (TextUtils.isEmpty(telephonyManager.getLine1Number()) ? null : telephonyManager.getLine1Number());// 手机号
 		mobileInfoBean.serviceName = telephonyManager.getSimOperatorName(); // 运营商
-
 		mobileInfoBean.mtyb = Build.BRAND;// 手机品牌
 		mobileInfoBean.mtype = Build.MODEL;// 手机型号
 		mobileInfoBean.sdk = Build.VERSION.SDK_INT;// sdk版本号
 		mobileInfoBean.release = Build.VERSION.RELEASE;// 系统版本号
 		mobileInfoBean.deviceId = telephonyManager.getDeviceId();
-		
+
 	}
 
 	// 获取CPU最大频率（单位KHZ）
@@ -136,8 +133,7 @@ public class MobileInfoActivity extends Activity {
 		String result = "";
 		ProcessBuilder cmd;
 		try {
-			String[] args = { "/system/bin/cat",
-					"/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq" };
+			String[] args = { "/system/bin/cat", "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq" };
 			cmd = new ProcessBuilder(args);
 			Process process = cmd.start();
 			InputStream in = process.getInputStream();
@@ -158,8 +154,7 @@ public class MobileInfoActivity extends Activity {
 		String result = "";
 		ProcessBuilder cmd;
 		try {
-			String[] args = { "/system/bin/cat",
-					"/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq" };
+			String[] args = { "/system/bin/cat", "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_min_freq" };
 			cmd = new ProcessBuilder(args);
 			Process process = cmd.start();
 			InputStream in = process.getInputStream();
@@ -176,13 +171,12 @@ public class MobileInfoActivity extends Activity {
 	}
 
 	/**
-	 *  实时获取CPU当前频率（单位KHZ）
+	 * 实时获取CPU当前频率（单位KHZ）
 	 */
 	private void getCurCpuFreq() {
 		String result = "N/A";
 		try {
-			FileReader fr = new FileReader(
-					"/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq");
+			FileReader fr = new FileReader("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq");
 			BufferedReader br = new BufferedReader(fr);
 			String text = br.readLine();
 			result = text.trim();
@@ -215,8 +209,7 @@ public class MobileInfoActivity extends Activity {
 			str2 = bufferedReader.readLine();
 			str = str2.split("\\s+");
 			cpuInfo[1] += str[2];
-			total_memory = Formatter.formatFileSize(MobileInfoActivity.this,
-					Integer.valueOf(str[1]).intValue() * 1024);// 获得系统总内存，单位是KB，乘以1024转换为Byte
+			total_memory = Formatter.formatFileSize(MobileInfoActivity.this, Integer.valueOf(str[1]).intValue() * 1024);// 获得系统总内存，单位是KB，乘以1024转换为Byte
 			bufferedReader.close();
 		} catch (Exception e) {
 		}
@@ -232,11 +225,9 @@ public class MobileInfoActivity extends Activity {
 		ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		MemoryInfo memoryInfo = new MemoryInfo();
 		activityManager.getMemoryInfo(memoryInfo);
-		mobileInfoBean.runningProcess = activityManager
-				.getRunningAppProcesses().size();
+		mobileInfoBean.runningProcess = activityManager.getRunningAppProcesses().size();
 		Log.i("processaaa", activityManager.getRunningAppProcesses().toString());
-		mobileInfoBean.availSave = Formatter.formatFileSize(
-				MobileInfoActivity.this, memoryInfo.availMem);
+		mobileInfoBean.availSave = Formatter.formatFileSize(MobileInfoActivity.this, memoryInfo.availMem);
 	}
 
 	/**
@@ -250,8 +241,7 @@ public class MobileInfoActivity extends Activity {
 
 		try {
 			FileReader localFileReader = new FileReader(str1);
-			BufferedReader localBufferedReader = new BufferedReader(
-					localFileReader, 8192);
+			BufferedReader localBufferedReader = new BufferedReader(localFileReader, 8192);
 			str2 = localBufferedReader.readLine();// 读取meminfo第一行，系统总内存大小
 
 			arrayOfString = str2.split("\\s+");
@@ -264,8 +254,7 @@ public class MobileInfoActivity extends Activity {
 
 		} catch (IOException e) {
 		}
-		mobileInfoBean.totalSave = Formatter.formatFileSize(
-				MobileInfoActivity.this, initial_memory);// Byte转换为KB或者MB，内存大小规格化
+		mobileInfoBean.totalSave = Formatter.formatFileSize(MobileInfoActivity.this, initial_memory);// Byte转换为KB或者MB，内存大小规格化
 
 	}
 
@@ -279,8 +268,7 @@ public class MobileInfoActivity extends Activity {
 			public void onReceive(Context context, Intent intent) {
 				context.unregisterReceiver(this);
 				int batNow = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);// 获得当前电量
-				int batTotal = intent.getIntExtra(BatteryManager.EXTRA_SCALE,
-						-1);// 获得总电量
+				int batTotal = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);// 获得总电量
 				int level = -1;
 				if (batNow >= 0 && batTotal > 0) {
 					level = (batNow * 100) / batTotal;
@@ -289,8 +277,7 @@ public class MobileInfoActivity extends Activity {
 				tv_bat.setText("手机电量 ： " + mobileInfoBean.batteryLevel);
 			}
 		};
-		IntentFilter batteryFilter = new IntentFilter(
-				Intent.ACTION_BATTERY_CHANGED);
+		IntentFilter batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 		registerReceiver(batteryReceiver, batteryFilter);
 	}
 }
